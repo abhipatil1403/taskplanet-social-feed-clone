@@ -89,8 +89,8 @@ const PostCard = ({ post, currentUserId, onLikeToggle, onCommentSubmit }) => {
       )}
 
       {/* Info Stats Bar */}
-      <Box display="flex" justifyContent="space-between" alignItems="center" sx={{ px: 3, py: 1.5 }}>
-        <Box display="flex" alignItems="center" gap={0.5}>
+      <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', px: 3, py: 1.5 }}>
+        <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
           <Box
             sx={{
               display: 'flex',
@@ -162,11 +162,11 @@ const PostCard = ({ post, currentUserId, onLikeToggle, onCommentSubmit }) => {
         <Divider />
         <CardContent sx={{ bgcolor: '#f8fafc', p: 3 }}>
           {currentUserId && (
-            <Box component="form" onSubmit={handleCommentPost} display="flex" gap={1.5} mb={3}>
+            <Box component="form" onSubmit={handleCommentPost} sx={{ display: 'flex', gap: 1.5, mb: 3 }}>
               <Avatar sx={{ bgcolor: 'secondary.main', width: 34, height: 34, fontSize: '0.85rem' }}>
                 U
               </Avatar>
-              <Box display="flex" flexGrow={1} gap={1}>
+              <Box sx={{ display: 'flex', flexGrow: 1, gap: 1 }}>
                 <TextField
                   fullWidth
                   size="small"
@@ -198,7 +198,7 @@ const PostCard = ({ post, currentUserId, onLikeToggle, onCommentSubmit }) => {
           {post.comments.length > 0 ? (
             <List sx={{ p: 0, display: 'flex', flexDirection: 'column', gap: 2 }}>
               {post.comments.map((comment, idx) => (
-                <Box key={comment._id || idx} display="flex" gap={1.5} alignItems="flex-start">
+                <Box key={comment._id || idx} sx={{ display: 'flex', gap: 1.5, alignItems: 'flex-start' }}>
                   <Avatar sx={{ bgcolor: 'primary.light', width: 32, height: 32, fontSize: '0.8rem', fontWeight: 600 }}>
                     {comment.username[0].toUpperCase()}
                   </Avatar>
@@ -212,7 +212,7 @@ const PostCard = ({ post, currentUserId, onLikeToggle, onCommentSubmit }) => {
                       boxShadow: '0 1px 3px rgba(0,0,0,0.02)'
                     }}
                   >
-                    <Box display="flex" justifyContent="space-between" alignItems="center" gap={2} mb={0.5}>
+                    <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 2, mb: 0.5 }}>
                       <Typography variant="subtitle2" sx={{ fontWeight: 700, fontSize: '0.85rem' }}>
                         {comment.username}
                       </Typography>

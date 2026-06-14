@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Card, CardContent, TextField, Button, Box, IconButton, Typography, Avatar, Divider } from '@mui/material';
+import { Card, CardContent, InputBase, Button, Box, IconButton, Typography, Avatar, Divider } from '@mui/material';
 import PhotoCamera from '@mui/icons-material/PhotoCamera';
 import CloseIcon from '@mui/icons-material/Close';
 
@@ -53,23 +53,19 @@ const CreatePost = ({ onPostCreated, username }) => {
   return (
     <Card sx={{ mb: 4, borderRadius: 4, boxShadow: '0px 4px 20px rgba(0, 0, 0, 0.02)', border: '1px solid #f1f5f9' }}>
       <CardContent sx={{ p: 3, '&:last-child': { pb: 3 } }}>
-        <Box display="flex" gap={2} alignItems="flex-start" mb={2}>
+        <Box sx={{ display: 'flex', gap: 2, alignItems: 'flex-start', mb: 2 }}>
           <Avatar sx={{ bgcolor: 'primary.main', width: 40, height: 40, fontWeight: 700 }}>
             {username ? username[0].toUpperCase() : 'U'}
           </Avatar>
-          <TextField
+          <InputBase
             fullWidth
             multiline
             rows={2}
             placeholder="What's on your mind? Share text or upload an image..."
-            variant="standard"
-            InputProps={{
-              disableUnderline: true,
-              style: { fontSize: '1.05rem' }
-            }}
             value={text}
             onChange={(e) => setText(e.target.value)}
             disabled={loading}
+            sx={{ fontSize: '1.05rem', pt: 0.5 }}
           />
         </Box>
 
@@ -105,7 +101,7 @@ const CreatePost = ({ onPostCreated, username }) => {
 
         <Divider sx={{ my: 1.5, borderColor: '#f1f5f9' }} />
 
-        <Box display="flex" justifyContent="space-between" alignItems="center">
+        <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
           <Button
             component="label"
             variant="text"

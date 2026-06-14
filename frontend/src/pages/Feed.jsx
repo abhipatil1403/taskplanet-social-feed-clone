@@ -85,7 +85,7 @@ const Feed = ({ user, token, API_URL }) => {
       )}
 
       {loading ? (
-        <Box display="flex" justifyContent="center" py={4}>
+        <Box sx={{ display: 'flex', justifyContent: 'center', py: 4 }}>
           <CircularProgress />
         </Box>
       ) : posts.length > 0 ? (
