@@ -69,7 +69,7 @@ const Feed = ({ user, token, API_URL }) => {
   return (
     <Container maxWidth="sm" sx={{ py: 4 }}>
       {user && (
-        <CreatePost onPostCreated={handlePostCreated} />
+        <CreatePost onPostCreated={handlePostCreated} username={user.username} />
       )}
 
       {!user && (

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Card, CardHeader, CardContent, CardActions, Collapse, Avatar, IconButton, Typography, Button, TextField, Box, Divider, List } from '@mui/material';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
-import CommentIcon from '@mui/icons-material/Comment';
+import CommentOutlinedIcon from '@mui/icons-material/CommentOutlined';
 import SendIcon from '@mui/icons-material/Send';
 
 const PostCard = ({ post, currentUserId, onLikeToggle, onCommentSubmit }) => {
@@ -56,102 +56,179 @@ const PostCard = ({ post, currentUserId, onLikeToggle, onCommentSubmit }) => {
   };
 
   return (
-    <Card sx={{ mb: 3 }}>
+    <Card sx={{ mb: 4, overflow: 'hidden', transition: 'box-shadow 0.3s ease', '&:hover': { boxShadow: '0px 8px 30px rgba(0, 0, 0, 0.06)' } }}>
       <CardHeader
         avatar={
-          <Avatar sx={{ bgcolor: 'primary.main' }}>
+          <Avatar sx={{ bgcolor: 'primary.main', width: 42, height: 42, fontWeight: 700 }}>
             {post.username[0].toUpperCase()}
           </Avatar>
         }
         title={post.username}
         subheader={formatTime(post.createdAt)}
-        titleTypographyProps={{ fontWeight: 600 }}
+        titleTypographyProps={{ fontWeight: 600, fontSize: '1rem' }}
+        subheaderTypographyProps={{ fontSize: '0.8rem', color: 'text.secondary' }}
+        sx={{ pb: 1.5 }}
       />
 
       {post.text && (
-        <CardContent sx={{ pt: 0 }}>
-          <Typography variant="body1" color="text.primary">
+        <CardContent sx={{ pt: 0, pb: 2 }}>
+          <Typography variant="body1" color="text.primary" sx={{ fontSize: '0.975rem', whiteSpace: 'pre-wrap' }}>
             {post.text}
           </Typography>
         </CardContent>
       )}
 
       {post.image && (
-        <Box sx={{ width: '100%', display: 'flex', justifyContent: 'center', bgcolor: 'black', maxHeight: 500, overflow: 'hidden' }}>
+        <Box sx={{ width: '100%', display: 'flex', justifyContent: 'center', bgcolor: '#f8fafc', borderTop: '1px solid #f1f5f9', borderBottom: '1px solid #f1f5f9', maxHeight: 450, overflow: 'hidden' }}>
           <img
             src={post.image}
             alt="Post content"
-            style={{ width: '100%', height: 'auto', objectFit: 'contain', maxHeight: 500 }}
+            style={{ width: '100%', height: 'auto', objectFit: 'contain', maxHeight: 450 }}
           />
         </Box>
       )}
 
-      <CardActions disableSpacing sx={{ px: 2, py: 1, display: 'flex', justifyContent: 'space-between' }}>
-        <Box display="flex" alignItems="center">
-          <IconButton onClick={handleLike} color={isLiked ? 'error' : 'default'} disabled={!currentUserId}>
-            {isLiked ? <FavoriteIcon /> : <FavoriteBorderIcon />}
-          </IconButton>
-          <Typography variant="body2" sx={{ ml: 0.5, fontWeight: 600 }}>
-            {likesCount} {likesCount === 1 ? 'Like' : 'Likes'}
+      {/* Info Stats Bar */}
+      <Box display="flex" justifyContent="space-between" alignItems="center" sx={{ px: 3, py: 1.5 }}>
+        <Box display="flex" alignItems="center" gap={0.5}>
+          <Box
+            sx={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              bgcolor: likesCount > 0 ? 'error.light' : 'transparent',
+              borderRadius: '50%',
+              width: 18,
+              height: 18,
+              p: 0.2
+            }}
+          >
+            {likesCount > 0 && <FavoriteIcon sx={{ fontSize: 12, color: 'white' }} />}
+          </Box>
+          <Typography variant="caption" sx={{ fontWeight: 500, color: 'text.secondary' }}>
+            {likesCount} {likesCount === 1 ? 'like' : 'likes'}
           </Typography>
         </Box>
 
-        <Box display="flex" alignItems="center">
-          <IconButton onClick={handleExpandClick} color="primary">
-            <CommentIcon />
-          </IconButton>
-          <Typography variant="body2" sx={{ ml: 0.5, fontWeight: 600 }}>
-            {commentsCount} {commentsCount === 1 ? 'Comment' : 'Comments'}
-          </Typography>
-        </Box>
+        <Typography
+          variant="caption"
+          onClick={handleExpandClick}
+          sx={{ fontWeight: 500, color: 'text.secondary', cursor: 'pointer', '&:hover': { textDecoration: 'underline' } }}
+        >
+          {commentsCount} {commentsCount === 1 ? 'comment' : 'comments'}
+        </Typography>
+      </Box>
+
+      <Divider sx={{ mx: 2 }} />
+
+      {/* Interactive Action Buttons */}
+      <CardActions sx={{ px: 2, py: 0.5, display: 'flex', justifyContent: 'space-between' }}>
+        <Button
+          fullWidth
+          startIcon={isLiked ? <FavoriteIcon /> : <FavoriteBorderIcon />}
+          onClick={handleLike}
+          color={isLiked ? 'error' : 'inherit'}
+          sx={{
+            py: 1,
+            borderRadius: 2,
+            fontWeight: 600,
+            fontSize: '0.875rem',
+            color: isLiked ? 'error.main' : 'text.secondary',
+            '&:hover': { bgcolor: isLiked ? 'error.50' : 'action.hover' }
+          }}
+        >
+          Like
+        </Button>
+
+        <Button
+          fullWidth
+          startIcon={<CommentOutlinedIcon />}
+          onClick={handleExpandClick}
+          color="inherit"
+          sx={{
+            py: 1,
+            borderRadius: 2,
+            fontWeight: 600,
+            fontSize: '0.875rem',
+            color: expanded ? 'primary.main' : 'text.secondary',
+            '&:hover': { bgcolor: 'action.hover' }
+          }}
+        >
+          Comment
+        </Button>
       </CardActions>
 
       <Collapse in={expanded} timeout="auto" unmountOnExit>
         <Divider />
-        <CardContent sx={{ bgcolor: 'background.default' }}>
+        <CardContent sx={{ bgcolor: '#f8fafc', p: 3 }}>
           {currentUserId && (
-            <Box component="form" onSubmit={handleCommentPost} display="flex" gap={1} mb={2}>
-              <TextField
-                fullWidth
-                size="small"
-                variant="outlined"
-                placeholder="Write a comment..."
-                value={commentText}
-                onChange={(e) => setCommentText(e.target.value)}
-                disabled={commenting}
-              />
-              <Button
-                type="submit"
-                variant="contained"
-                size="small"
-                disabled={!commentText.trim() || commenting}
-                endIcon={<SendIcon />}
-              >
-                Post
-              </Button>
+            <Box component="form" onSubmit={handleCommentPost} display="flex" gap={1.5} mb={3}>
+              <Avatar sx={{ bgcolor: 'secondary.main', width: 34, height: 34, fontSize: '0.85rem' }}>
+                U
+              </Avatar>
+              <Box display="flex" flexGrow={1} gap={1}>
+                <TextField
+                  fullWidth
+                  size="small"
+                  variant="outlined"
+                  placeholder="Write a comment..."
+                  value={commentText}
+                  onChange={(e) => setCommentText(e.target.value)}
+                  disabled={commenting}
+                  sx={{
+                    '& .MuiOutlinedInput-root': {
+                      bgcolor: 'background.paper',
+                      borderRadius: 4
+                    }
+                  }}
+                />
+                <Button
+                  type="submit"
+                  variant="contained"
+                  size="small"
+                  disabled={!commentText.trim() || commenting}
+                  sx={{ borderRadius: 4, px: 2 }}
+                >
+                  <SendIcon fontSize="small" />
+                </Button>
+              </Box>
             </Box>
           )}
 
           {post.comments.length > 0 ? (
-            <List sx={{ p: 0 }}>
+            <List sx={{ p: 0, display: 'flex', flexDirection: 'column', gap: 2 }}>
               {post.comments.map((comment, idx) => (
-                <Box key={comment._id || idx} sx={{ mb: 1.5, p: 1.5, bgcolor: 'background.paper', borderRadius: 2, border: '1px solid #e2e8f0' }}>
-                  <Box display="flex" justifyContent="space-between" mb={0.5}>
-                    <Typography variant="subtitle2" sx={{ fontWeight: 700 }}>
-                      {comment.username}
-                    </Typography>
-                    <Typography variant="caption" color="text.secondary">
-                      {formatTime(comment.createdAt)}
+                <Box key={comment._id || idx} display="flex" gap={1.5} alignItems="flex-start">
+                  <Avatar sx={{ bgcolor: 'primary.light', width: 32, height: 32, fontSize: '0.8rem', fontWeight: 600 }}>
+                    {comment.username[0].toUpperCase()}
+                  </Avatar>
+                  <Box
+                    sx={{
+                      bgcolor: 'background.paper',
+                      borderRadius: 3,
+                      p: 1.5,
+                      border: '1px solid #f1f5f9',
+                      maxWidth: '85%',
+                      boxShadow: '0 1px 3px rgba(0,0,0,0.02)'
+                    }}
+                  >
+                    <Box display="flex" justifyContent="space-between" alignItems="center" gap={2} mb={0.5}>
+                      <Typography variant="subtitle2" sx={{ fontWeight: 700, fontSize: '0.85rem' }}>
+                        {comment.username}
+                      </Typography>
+                      <Typography variant="caption" color="text.secondary" sx={{ fontSize: '0.75rem' }}>
+                        {formatTime(comment.createdAt)}
+                      </Typography>
+                    </Box>
+                    <Typography variant="body2" color="text.primary" sx={{ fontSize: '0.875rem', lineHeight: 1.5 }}>
+                      {comment.comment}
                     </Typography>
                   </Box>
-                  <Typography variant="body2" color="text.primary">
-                    {comment.comment}
-                  </Typography>
                 </Box>
               ))}
             </List>
           ) : (
-            <Typography variant="body2" color="text.secondary" align="center" sx={{ py: 1 }}>
+            <Typography variant="body2" color="text.secondary" align="center" sx={{ py: 1, fontSize: '0.85rem' }}>
               No comments yet. Be the first to comment!
             </Typography>
           )}
