@@ -2,7 +2,7 @@
 
 Here are the links for the submission of the TaskPlanet Social Feed Clone project:
 
-- **Frontend URL**: [PASTE_YOUR_VERCEL_OR_DEPLOYED_FRONTEND_URL_HERE]
+- **Frontend URL**: [PASTE_YOUR_NETLIFY_OR_DEPLOYED_FRONTEND_URL_HERE]
 - **GitHub Repository**: [PASTE_YOUR_GITHUB_PUBLIC_REPO_URL_HERE]
 - **MongoDB Connection String**: 
   ```text
