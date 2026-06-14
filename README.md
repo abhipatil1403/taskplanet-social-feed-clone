@@ -152,7 +152,7 @@ You can choose either a local MongoDB installation or MongoDB Atlas (recommended
 
 ## Deployment
 
-### Frontend (Vercel)
+### Frontend (Netlify)
 - Set Environment Variable `VITE_API_URL` to your backend's deployed URL.
 
 ### Backend (Render)
